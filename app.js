@@ -5,6 +5,7 @@ const listing = require("./models/listings.js")
 const ejs = require("ejs");
 const path = require("path");
 const method_Override = require("method-override");
+const ejsMate = require("ejs-mate");
 
 
 const url = "mongodb://127.0.0.1:27017/bnblite";
@@ -22,14 +23,23 @@ async function main() {
 }
 
 
+// ejs-mate 
+app.engine('ejs', ejsMate);
+
 //setting ejs view engine
 
 app.set("engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+//css
+app.use(express.static(path.join(__dirname,"public")));
+
 //method override
 app.use(express.urlencoded({extended: true})); // parsing the data from requests 
 app.use(method_Override("_method"));
+
+
+
 
 
 //index route
